@@ -6,104 +6,101 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
+import org.testng.annotations.BeforeMethod;
 import java.time.Duration;
 
 public class LoginTesting {
-    WebDriver driver;
-    public void setupDriver(){
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-    }
-    public WebDriverWait accessLoginPage(){
-        driver.get("https://www.saucedemo.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        return wait;
-    }
+    FormLogin formLogin;
+    CheckingParamater checkingParamaterValidData;
+    CheckingParamater checkingParamaterNotValidData;
 
-    public void fillLoginForm(String usernameXPath,String Username,String passwordXPath,String Password,String buttonLoginXpath){
-        driver.findElement(By.xpath(usernameXPath)).sendKeys(Username);
-        driver.findElement(By.xpath(passwordXPath)).sendKeys(Password);
-        driver.findElement(By.xpath(buttonLoginXpath)).click();
-    }
+    @BeforeMethod
+    public void Setup(){
+         formLogin = new FormLogin.Builder()
+                .setUsername("")
+                .setUsernameXPath("//input[@id='user-name']")
+                .setPassword("")
+                .setPasswordXPath("//input[@id='password']")
+                .setButtonXPath("//input[@id='login-button']")
+                .build();
 
-    public void checking(WebDriverWait wait,String waitUntilXPath,String actualXPath,String Expected){
-        try{
-            wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath(waitUntilXPath))));
+         checkingParamaterValidData = new CheckingParamater.Builder()
+                .setWaitUntilXPath("//span[@class='title']")
+                .setActualXPath("//span[@class='title']")
+                .setExpected("Products")
+                .build();
 
-            String ActualResult = driver.findElement(By.xpath(actualXPath)).getText();
-            String ExpectedResult = Expected;
-            Assert.assertEquals(ActualResult, ExpectedResult, "Fail");
-            System.out.println("Pass");
-        } catch (Exception e) {
-            System.out.println("Fail");
-            Assert.fail("Test failed due to an exception: " + e.getMessage());
-        } finally {
-            // Ensure that the WebDriver instance is closed regardless of whether an exception occurred
-            if (driver != null) {
-                driver.quit(); // Closes all browser windows and ends the WebDriver session
-            }
-        }
+         checkingParamaterNotValidData = new CheckingParamater.Builder()
+                .setWaitUntilXPath("//div[@class='error-message-container error']")
+                .setActualXPath("//div[@class='error-message-container error']//h3")
+                .setExpected("")
+                .build();
     }
 
     @Test
     public void LG001(){
-            setupDriver();
-            WebDriverWait wait =accessLoginPage();
-            checking(wait,"//div[@class='login_logo']","//div[@class='login_logo']","Swag Labs");
+        WebDriver driver =tools.setupDriver();
+        WebDriverWait wait =tools.accessLoginPage(15,driver);
+        tools.checking(driver,wait,"//div[@class='login_logo']","//div[@class='login_logo']","Swag Labs");
     }
 
     @Test
     public void LG002(){
-            setupDriver();
-            WebDriverWait wait =accessLoginPage();
-            wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='login_logo']"))));
-            String username = "standard_user";
-            String password = "secret_sauce";
-            fillLoginForm("//input[@id='user-name']",username,"//input[@id='password']",password,"//input[@id='login-button']");
+        formLogin.setUsername("standard_user");
+        formLogin.setPassword("secret_sauce");
 
-            //login check
-            checking(wait,"//span[@class='title']","//span[@class='title']","Products");
+        tools.loginChecking(15,formLogin,checkingParamaterValidData);
     }
 
     @Test
     public void LG003(){
-        setupDriver();
-        WebDriverWait wait =accessLoginPage();
-        wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='login_logo']"))));
-        String username = "standard_user";
-        String password = "secret_123";
-        fillLoginForm("//input[@id='user-name']",username,"//input[@id='password']",password,"//input[@id='login-button']");
+        formLogin.setUsername("standard_user");
+        formLogin.setPassword("secret_123");
 
-        //login check
-        checking(wait,"//div[@class='error-message-container error']","//div[@class='error-message-container error']//h3","Epic sadface: Username and password do not match any user in this service");
+        checkingParamaterNotValidData.setExpected("Epic sadface: Username and password do not match any user in this service");
+
+        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
     }
 
     @Test
     public void LG004(){
-        setupDriver();
-        WebDriverWait wait =accessLoginPage();
-        wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='login_logo']"))));
-        String username = "standard_user";
-        String password = "";
-        fillLoginForm("//input[@id='user-name']",username,"//input[@id='password']",password,"//input[@id='login-button']");
+        formLogin.setUsername("standard_user");
+        formLogin.setPassword("");
 
-        //login check
-        checking(wait,"//div[@class='error-message-container error']","//div[@class='error-message-container error']//h3","Epic sadface: Password is required");
+        checkingParamaterNotValidData.setExpected("Epic sadface: Password is required");
+
+        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
     }
 
     @Test
     public void LG005(){
-        setupDriver();
-        WebDriverWait wait =accessLoginPage();
-        wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='login_logo']"))));
-        String username = "' OR '1'='1";
-        String password = "' OR '1'='1";
-        fillLoginForm("//input[@id='user-name']",username,"//input[@id='password']",password,"//input[@id='login-button']");
+        formLogin.setUsername("' OR '1'='1");
+        formLogin.setPassword("' OR '1'='1");
 
-        //login check
-        checking(wait,"//div[@class='error-message-container error']","//div[@class='error-message-container error']//h3","Epic sadface: Username and password do not match any user in this service");
+        checkingParamaterNotValidData.setExpected("Epic sadface: Username and password do not match any user in this service");
+
+        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+    }
+
+    @Test
+    public void LG006(){
+        formLogin.setUsername("standard_user");
+        formLogin.setPassword("secret_123");
+
+        checkingParamaterNotValidData.setExpected("Epic sadface: Username and password do not match any user in this service");
+
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Attempt : "+(i+1));
+            tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+        }
+
+        formLogin.setUsername("standard_user");
+        formLogin.setPassword("secret_sauce");
+
+        checkingParamaterNotValidData.setExpected("suspend");
+
+        tools.loginChecking(15,formLogin, checkingParamaterNotValidData);
     }
 
 }
