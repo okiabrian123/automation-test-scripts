@@ -9,8 +9,7 @@ import org.testng.Assert;
 import java.time.Duration;
 
 public class tools {
-    public static WebDriver setupDriver(){
-
+    public static WebDriver SetupDriver(){
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -35,18 +34,16 @@ public class tools {
             String ActualResult = driver.findElement(By.xpath(actualXPath)).getText();
             String ExpectedResult = Expected;
             Assert.assertTrue(ActualResult.contains(ExpectedResult), "Fail: Actual result does not contain expected result.");
+            System.out.println("Pass");
         } catch (Exception e) {
             System.out.println("Fail");
             Assert.fail("Test failed due to an exception: " + e.getMessage());
         } finally {
             // Ensure that the WebDriver instance is closed regardless of whether an exception occurred
-            if (driver != null) {
-                driver.quit(); // Closes all browser windows and ends the WebDriver session
-            }
+
         }
     }
-    public static void loginChecking(int seconds, FormLogin loginParameters, CheckingParamater checkingParamater){
-        WebDriver driver = setupDriver();
+    public static void loginChecking(WebDriver driver, int seconds, FormLogin loginParameters, CheckingParamater checkingParamater){
         WebDriverWait wait = accessLoginPage(seconds,driver);
         wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='login_logo']"))));
         String username = "standard_user";

@@ -5,6 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import java.time.Duration;
@@ -13,9 +15,11 @@ public class LoginTesting {
     FormLogin formLogin;
     CheckingParamater checkingParamaterValidData;
     CheckingParamater checkingParamaterNotValidData;
+    WebDriver driver;
 
-    @BeforeMethod
+    @BeforeTest
     public void Setup(){
+        driver = tools.SetupDriver();
          formLogin = new FormLogin.Builder()
                 .setUsername("")
                 .setUsernameXPath("//input[@id='user-name']")
@@ -39,7 +43,6 @@ public class LoginTesting {
 
     @Test
     public void LG001(){
-        WebDriver driver =tools.setupDriver();
         WebDriverWait wait =tools.accessLoginPage(15,driver);
         tools.checking(driver,wait,"//div[@class='login_logo']","//div[@class='login_logo']","Swag Labs");
     }
@@ -49,7 +52,7 @@ public class LoginTesting {
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_sauce");
 
-        tools.loginChecking(15,formLogin,checkingParamaterValidData);
+        tools.loginChecking(driver,15,formLogin,checkingParamaterValidData);
     }
 
     @Test
@@ -59,7 +62,7 @@ public class LoginTesting {
 
         checkingParamaterNotValidData.setExpected("Epic sadface: Username and password do not match any user in this service");
 
-        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+        tools.loginChecking(driver,15,formLogin,checkingParamaterNotValidData);
     }
 
     @Test
@@ -69,7 +72,7 @@ public class LoginTesting {
 
         checkingParamaterNotValidData.setExpected("Epic sadface: Password is required");
 
-        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+        tools.loginChecking(driver,15,formLogin,checkingParamaterNotValidData);
     }
 
     @Test
@@ -79,7 +82,7 @@ public class LoginTesting {
 
         checkingParamaterNotValidData.setExpected("Epic sadface: Username and password do not match any user in this service");
 
-        tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+        tools.loginChecking(driver,15,formLogin,checkingParamaterNotValidData);
     }
 
     @Test
@@ -92,7 +95,7 @@ public class LoginTesting {
 
         for (int i = 0; i < 3; i++) {
             System.out.println("Attempt : "+(i+1));
-            tools.loginChecking(15,formLogin,checkingParamaterNotValidData);
+            tools.loginChecking(driver,5,formLogin,checkingParamaterNotValidData);
         }
 
         formLogin.setUsername("standard_user");
@@ -100,7 +103,13 @@ public class LoginTesting {
 
         checkingParamaterNotValidData.setExpected("suspend");
 
-        tools.loginChecking(15,formLogin, checkingParamaterNotValidData);
+        tools.loginChecking(driver,5,formLogin, checkingParamaterNotValidData);
+    }
+    @AfterTest
+    public void close(){
+        if (driver != null) {
+            driver.quit(); // Closes all browser windows and ends the WebDriver session
+        }
     }
 
 }
