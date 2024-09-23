@@ -34,6 +34,7 @@ You can run the tests on different browsers (Chrome, Firefox, Safari) by specify
 
 ### Running on Safari
 need to allow remote automation in Develop -> Developer Settting.
+
 checklist : allow remote automation
 
 ```bash
