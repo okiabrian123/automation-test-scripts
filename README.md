@@ -33,6 +33,8 @@ mvn clean install
 You can run the tests on different browsers (Chrome, Firefox, Safari) by specifying the browser in the command line.
 
 ### Running on Safari
+need to allow remote automation in Develop -> Developer Settting.
+checklist : allow remote automation
 
 ```bash
 mvn test -Dbrowser=safari
@@ -73,9 +75,5 @@ mvn test -Pfirefox
 ## WebDriver Setup
 This project uses WebDriverManager to automatically manage the browser drivers.
 
-## Note(Safari)
-need to allow remote automation in develop settting.
-checklist : allow remote automation
-
-Contributions
+## Contributions
 Feel free to fork the repository and submit pull requests if you'd like to contribute. Issues and feature requests are welcome!
