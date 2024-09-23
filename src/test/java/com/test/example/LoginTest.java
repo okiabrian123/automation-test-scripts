@@ -54,7 +54,7 @@ public class LoginTest {
 
     @Test
     public void LG002(){
-        System.out.println("\nLG001 :");
+        System.out.println("\nLG002 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_sauce");
 
@@ -63,7 +63,7 @@ public class LoginTest {
 
     @Test
     public void LG003(){
-        System.out.println("\nLG001 :");
+        System.out.println("\nLG003 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_123");
 
@@ -74,7 +74,7 @@ public class LoginTest {
 
     @Test
     public void LG004(){
-        System.out.println("\nLG001 :");
+        System.out.println("\nLG004 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("");
 
@@ -85,7 +85,7 @@ public class LoginTest {
 
     @Test
     public void LG005(){
-        System.out.println("\nLG001 :");
+        System.out.println("\nLG005 :");
         formLogin.setUsername("' OR '1'='1");
         formLogin.setPassword("' OR '1'='1");
 
@@ -96,7 +96,7 @@ public class LoginTest {
 
     @Test
     public void LG006(){
-        System.out.println("\nLG001 :");
+        System.out.println("\nLG006 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_123");
 
