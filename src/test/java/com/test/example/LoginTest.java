@@ -18,7 +18,10 @@ public class LoginTest {
     public void Setup(){
 
         // Mendapatkan platform atau browser dari properti sistem (misalnya, dari profil Maven)
-        String browser = System.getProperty("browser", "chrome"); // Default ke Chrome jika tidak ada properti
+        String browser = System.getProperty("browser"); // Default ke Chrome jika tidak ada properti
+        if (browser == null){
+            System.out.println("Need to setting browser(Safari, Chrome, Firefox)\nExample : mvn test -Psafari or mvn test -Dbrowser=safari");
+        }
 
         driver = tools.SetupDriver(browser);
          formLogin = new FormLogin.Builder()

@@ -20,6 +20,10 @@ public class tools {
         WebDriver driver = null;
 
         switch (browser.toLowerCase()) {
+            case "safari":
+                WebDriverManager.safaridriver().setup();
+                driver = new SafariDriver();
+                break;
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
@@ -27,10 +31,6 @@ public class tools {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
-                break;
-            case "safari":
-                WebDriverManager.chromedriver().setup();
-                driver = new SafariDriver();
                 break;
         }
         return driver;
