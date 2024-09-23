@@ -1,3 +1,5 @@
+package com.test.example;
+
 public class FormLogin {
    private String username;
    private String usernameXPath;

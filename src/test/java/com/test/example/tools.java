@@ -1,7 +1,11 @@
+package com.test.example;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -9,10 +13,26 @@ import org.testng.Assert;
 import java.time.Duration;
 
 public class tools {
-    public static WebDriver SetupDriver(){
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public static WebDriver SetupDriver(String browser){
+
+
+
+        WebDriver driver = null;
+
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+            case "safari":
+                WebDriverManager.chromedriver().setup();
+                driver = new SafariDriver();
+                break;
+        }
         return driver;
     }
     public static WebDriverWait accessLoginPage(int seconds,WebDriver driver){

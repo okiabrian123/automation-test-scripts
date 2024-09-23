@@ -1,17 +1,14 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
+package com.test.example;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import java.time.Duration;
 
-public class LoginTesting {
+import javax.swing.plaf.synth.SynthTextAreaUI;
+
+public class LoginTest {
     FormLogin formLogin;
     CheckingParamater checkingParamaterValidData;
     CheckingParamater checkingParamaterNotValidData;
@@ -19,7 +16,11 @@ public class LoginTesting {
 
     @BeforeTest
     public void Setup(){
-        driver = tools.SetupDriver();
+
+        // Mendapatkan platform atau browser dari properti sistem (misalnya, dari profil Maven)
+        String browser = System.getProperty("browser", "chrome"); // Default ke Chrome jika tidak ada properti
+
+        driver = tools.SetupDriver(browser);
          formLogin = new FormLogin.Builder()
                 .setUsername("")
                 .setUsernameXPath("//input[@id='user-name']")
@@ -43,12 +44,14 @@ public class LoginTesting {
 
     @Test
     public void LG001(){
+        System.out.println("\nLG001 :");
         WebDriverWait wait =tools.accessLoginPage(15,driver);
         tools.checking(driver,wait,"//div[@class='login_logo']","//div[@class='login_logo']","Swag Labs");
     }
 
     @Test
     public void LG002(){
+        System.out.println("\nLG001 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_sauce");
 
@@ -57,6 +60,7 @@ public class LoginTesting {
 
     @Test
     public void LG003(){
+        System.out.println("\nLG001 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_123");
 
@@ -67,6 +71,7 @@ public class LoginTesting {
 
     @Test
     public void LG004(){
+        System.out.println("\nLG001 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("");
 
@@ -77,6 +82,7 @@ public class LoginTesting {
 
     @Test
     public void LG005(){
+        System.out.println("\nLG001 :");
         formLogin.setUsername("' OR '1'='1");
         formLogin.setPassword("' OR '1'='1");
 
@@ -87,6 +93,7 @@ public class LoginTesting {
 
     @Test
     public void LG006(){
+        System.out.println("\nLG001 :");
         formLogin.setUsername("standard_user");
         formLogin.setPassword("secret_123");
 

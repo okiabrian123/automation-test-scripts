@@ -1,3 +1,5 @@
+package com.test.example;
+
 public class CheckingParamater {
     private String waitUntilXPath;
     private String actualXPath;
