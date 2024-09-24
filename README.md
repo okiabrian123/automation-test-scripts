@@ -3,7 +3,7 @@ https://docs.google.com/spreadsheets/d/1HXb5DLRzLOL-kWwRqxHVg-43aDwis0hcODhdLyP8
 
 Example Automation Test Script Mobile Browser with Appium in Java : https://github.com/okiabrian123/Automation-Test-Mobile-Browser
 
-# Automation Web Testing Script With Selenium in Java
+# Automation Test With Selenium in Java - Web Testing
 This project contains automation test scripts using Selenium WebDriver. The framework supports multiple browsers such as Chrome, Firefox, and Safari, and can be run using Maven.
 
 ## Prerequisites
