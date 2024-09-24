@@ -49,8 +49,7 @@ mvn test -Dbrowser=chrome
 mvn test -Dbrowser=firefox
 ```
 
-By default, if no browser is specified, the tests will run on Chrome.
-
+----------------------------------
 ## Project Structure
 The project structure is as follows:
 
